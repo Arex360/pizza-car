@@ -17,8 +17,6 @@ public class CarController : MonoBehaviour
     {
         public GameObject wheelModel;
         public WheelCollider wheelCollider;
-       // public GameObject wheelEffectObj;
-       // public ParticleSystem smokeParticle;
         public Axel axel;
     }
 
@@ -40,21 +38,18 @@ public class CarController : MonoBehaviour
     private Rigidbody carRb;
     private Animator animator;
 
-    //private CarLights carLights;
 
     void Start()
     {
         carRb = GetComponent<Rigidbody>();
         carRb.centerOfMass = _centerOfMass;
         animator = this.GetComponent<Animator>();
-       // carLights = GetComponent<CarLights>();
     }
 
     void Update()
     {
         GetInputs();
         AnimateWheels();
-        WheelEffects();
     }
 
     void LateUpdate()
@@ -78,7 +73,6 @@ public class CarController : MonoBehaviour
     {
         moveInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
-       // animator.SetFloat("mag",(moveInput != 0 || steerInput != 0) ? 1:0);
     }
 
     void Move()
@@ -109,9 +103,6 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelCollider.brakeTorque = 300 * brakeAcceleration * Time.deltaTime;
             }
-
-          //  carLights.isBackLightOn = true;
-          // carLights.OperateBackLights();
         }
         else
         {
@@ -119,9 +110,6 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelCollider.brakeTorque = 0;
             }
-
-           // carLights.isBackLightOn = false;
-           // carLights.OperateBackLights();
         }
     }
 
@@ -137,23 +125,6 @@ public class CarController : MonoBehaviour
         }
     }
 
-    void WheelEffects()
-    {
-        foreach (var wheel in wheels)
-        {
-            //var dirtParticleMainSettings = wheel.smokeParticle.main;
-
-            if (Input.GetKey(KeyCode.Space) && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
-            {
-               // wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
-              //  wheel.smokeParticle.Emit(1);
-            }
-            else
-            {
-              //  wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
-            }
-        }
-    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("marker")){
